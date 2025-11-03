@@ -614,8 +614,12 @@ namespace OpenUtau.App.Views {
         }
 
         async void OnMenuInstallWavtoolResampler(object sender, RoutedEventArgs args) {
-            var file = await FilePicker.OpenFile(
-                this, "menu.tools.dependency.install", FilePicker.EXE);
+            var filters = OS.IsWindows()
+                ? new[] { FilePicker.EXE }
+                : new[] { FilePicker.EXE, FilePicker.UnixExecutable };
+            
+            var file = await FilePicker.OpenFile(this, "menu.tools.dependency.install", filters);
+            
             if (file == null) {
                 return;
             }
